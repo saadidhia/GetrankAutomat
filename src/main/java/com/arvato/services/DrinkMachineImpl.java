@@ -22,17 +22,23 @@ public class DrinkMachineImpl implements DrinkMachine{
         if (totalInserted< product.getPrice()) return new DrinkMachineResponse(null,  Arrays.asList(coins), "Not Enough Money");
         products.put(product,products.get(product)-1);
         int difference=totalInserted- product.getPrice();
-        List<Coin> returnChange= calculateChange(difference);
-        return new DrinkMachineResponse(product, returnChange, "Successful Purchase");
+        List<Coin> returnCoins= calculateChange(difference);
+        return new DrinkMachineResponse(product, returnCoins, "Successful Purchase");
 
     }
 
     private List<Coin> calculateChange(int difference) {
-        List<Coin> list=new ArrayList<>();
-        list.add(Coin.COIN_50);
-        list.add(Coin.COIN_20);
-        list.add(Coin.COIN_10);
-        return list;
+        List<Coin> availableCoins = new ArrayList<>();
+
+        if (difference==0) return List.of();
+
+        for(Coin coin: Coin.values() ){
+            while(difference>= coin.getValue()){
+               availableCoins.add(coin);
+                difference-= coin.getValue();
+            }
+        }
+        return availableCoins;
     }
 
     @Override
