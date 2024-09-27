@@ -3,9 +3,9 @@ package com.arvato.models;
 public class Product {
 
     private final String  name;
-    private final String price;
+    private final int price;
 
-    public Product(String name, String price) {
+    public Product(String name, int  price) {
         this.name = name;
         this.price = price;
     }
@@ -14,7 +14,7 @@ public class Product {
         return name;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 }
