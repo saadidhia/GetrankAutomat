@@ -25,7 +25,7 @@ public class DrinkMachineImplTest {
     }
 
     @Test
-    public void buyProduct(){
+    public void buyProductSuccessfullyTest(){
         Coin[] coins={Coin.COIN_200};
         DrinkMachineResponse response =drinkMachine.buy(cola, coins);
         assertEquals("Successful Purchase", response.getMessage());
@@ -34,7 +34,7 @@ public class DrinkMachineImplTest {
     }
 
     @Test
-    public void notEnoughMoney(){
+    public void notEnoughMoneyTest(){
         Coin[] coins={Coin.COIN_100};
         DrinkMachineResponse response =drinkMachine.buy(cola, coins);
         assertEquals("Not Enough Money", response.getMessage());
@@ -43,7 +43,7 @@ public class DrinkMachineImplTest {
     }
 
     @Test
-    public void outOfStock(){
+    public void outOfStockTest(){
         Coin[] coins={Coin.COIN_100};
         spezi=new Product("spezi",100);
         DrinkMachineResponse response =drinkMachine.buy(spezi, coins);

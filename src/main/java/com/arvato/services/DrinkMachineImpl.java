@@ -15,6 +15,10 @@ public class DrinkMachineImpl implements DrinkMachine{
 
     @Override
     public DrinkMachineResponse buy(Product product, Coin... coins) {
+        if (!products.containsKey(product) || products.get(product) == 0) {
+            return new DrinkMachineResponse(null, Arrays.asList(coins), "Product is out of stock.");
+        }
+
         int totalInserted=0;
         for (Coin coin: coins ){
             totalInserted+=coin.getValue();
