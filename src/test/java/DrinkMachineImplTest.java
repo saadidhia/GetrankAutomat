@@ -15,6 +15,7 @@ public class DrinkMachineImplTest {
 
     private DrinkMachine drinkMachine;
     private Product cola;
+    private Product spezi;
 
     @BeforeEach
     void setup() {
@@ -39,6 +40,17 @@ public class DrinkMachineImplTest {
         assertEquals("Not Enough Money", response.getMessage());
         assertEquals(Arrays.asList(coins),response.getCoins());
         assertNull(response.getProduct());
+    }
+
+    @Test
+    public void outOfStock(){
+        Coin[] coins={Coin.COIN_100};
+        spezi=new Product("spezi",100);
+        DrinkMachineResponse response =drinkMachine.buy(spezi, coins);
+        assertEquals("Product is out of stock.", response.getMessage());
+        assertEquals(Arrays.asList(coins),response.getCoins());
+        assertNull(response.getProduct());
+
     }
 
 
