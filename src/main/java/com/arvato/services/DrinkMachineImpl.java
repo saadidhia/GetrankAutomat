@@ -80,4 +80,12 @@ public class DrinkMachineImpl implements DrinkMachine {
         products.put(product, products.getOrDefault(product, 0) + quantity);
 
     }
+
+    /**
+     * Empties the drink machine by removing all products from the inventory.
+     */
+    @Override
+    public void empty() {
+        products.clear();
+    }
 }

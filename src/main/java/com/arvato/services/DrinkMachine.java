@@ -10,4 +10,5 @@ public interface DrinkMachine {
 
     DrinkMachineResponse buy(Product product, Coin... coins);
     void fill(Product product, int quantity);
+    void empty();
 }
