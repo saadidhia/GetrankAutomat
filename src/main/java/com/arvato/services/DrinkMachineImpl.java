@@ -13,6 +13,18 @@ public class DrinkMachineImpl implements DrinkMachine {
 
     private final HashMap<Product, Integer> products = new HashMap<>();
 
+    /**
+     * This method allows a user to buy a drink from the drink machine by inserting coins.
+     * It checks the availability of the product, validates if the inserted coins cover the product price,
+     * and calculates the change.
+     *
+     * @param product the product that the user wants to buy.
+     * @param coins a variable number of {@link Coin} objects representing the coins inserted by the user.
+     * @return a {@link DrinkMachineResponse} object indicating the result of the transaction.
+     *         - If the product is out of stock, it returns a response indicating that the product is unavailable and returns the inserted coins.
+     *         - If the inserted coins are not enough, it returns a response indicating insufficient funds and returns the coins.
+     *         - If the purchase is successful, it deducts the product from stock, calculates the change, and returns a response indicating success with the appropriate change.
+     */
     @Override
     public DrinkMachineResponse buy(Product product, Coin... coins) {
         if (!products.containsKey(product) || products.get(product) == 0) {
@@ -32,6 +44,15 @@ public class DrinkMachineImpl implements DrinkMachine {
 
     }
 
+    /**
+     * Calculates the list of coins needed to make up the given difference.
+     * It returns a list of coins, starting from the highest denomination
+     * available and working its way down until the exact change is reached.
+     *
+     * @param difference the amount of change to be calculated, in the smallest unit of currency
+     * @return a list of {@link  Coin} representing the coins required to make up the given difference;
+     *         if the difference is 0, an empty list is returned
+     */
     private List<Coin> calculateChange(int difference) {
         List<Coin> availableCoins = new ArrayList<>();
 
@@ -46,6 +67,14 @@ public class DrinkMachineImpl implements DrinkMachine {
         return availableCoins;
     }
 
+    /**
+     * Adds the specified quantity of the given product to the drink machine.
+     * If the product already exists in the drink machine, the quantity is increased by the specified amount;
+     * otherwise, the product is added with the specified quantity.
+     *
+     * @param product the {@code Product} to be added or updated in the inventory
+     * @param quantity the amount of the product to be added
+     */
     @Override
     public void fill(Product product, int quantity) {
         products.put(product, products.getOrDefault(product, 0) + quantity);
