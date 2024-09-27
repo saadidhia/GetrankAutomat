@@ -27,7 +27,7 @@ public class DrinkMachineImplTest {
     public void buyProduct(){
         Coin[] coins={Coin.COIN_200};
         DrinkMachineResponse response =drinkMachine.buy(cola, coins);
-        assertEquals("Successful", response.getMessage());
+        assertEquals("Successful Purchase", response.getMessage());
         assertEquals(Arrays.asList(Coin.COIN_50,Coin.COIN_20,Coin.COIN_10),  response.getCoins());
         assertEquals(cola,response.getProduct());
     }
