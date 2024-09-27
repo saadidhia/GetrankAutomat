@@ -11,7 +11,6 @@ import java.util.List;
 public class DrinkMachineImpl implements DrinkMachine{
 
     private final HashMap<Product, Integer> products=new HashMap<>();
-    private final List<Integer> mustCoins= Arrays.asList(10,20,50,100,200);
 
     @Override
     public DrinkMachineResponse buy(Product product, Coin... coins) {

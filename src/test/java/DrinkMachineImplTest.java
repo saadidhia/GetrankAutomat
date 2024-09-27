@@ -25,16 +25,16 @@ public class DrinkMachineImplTest {
 
     @Test
     public void buyProduct(){
-        Coin[] coins={new Coin(200)};
+        Coin[] coins={Coin.COIN_200};
         DrinkMachineResponse response =drinkMachine.buy(cola, coins);
         assertEquals("Successful", response.getMessage());
-        assertEquals(Arrays.asList(new Coin(50),new Coin(20),new Coin(10)),  response.getCoins());
+        assertEquals(Arrays.asList(Coin.COIN_50,Coin.COIN_20,Coin.COIN_10),  response.getCoins());
         assertEquals(cola,response.getProduct());
     }
 
     @Test
     public void notEnoughMoney(){
-        Coin[] coins={new Coin(100)};
+        Coin[] coins={Coin.COIN_100};
         DrinkMachineResponse response =drinkMachine.buy(cola, coins);
         assertEquals("Not Enough Money", response.getMessage());
         assertEquals(Arrays.asList(coins),response.getCoins());
