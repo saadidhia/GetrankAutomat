@@ -20,36 +20,36 @@ public class DrinkMachineImplTest {
     @BeforeEach
     void setup() {
         drinkMachine = new DrinkMachineImpl();
-        cola=new Product("cola",120);
+        cola = new Product("cola", 120);
         drinkMachine.fill(cola, 5);
     }
 
     @Test
-    public void buyProductSuccessfullyTest(){
-        Coin[] coins={Coin.COIN_200};
-        DrinkMachineResponse response =drinkMachine.buy(cola, coins);
-        assertEquals("Successful Purchase", response.getMessage());
-        assertEquals(Arrays.asList(Coin.COIN_50,Coin.COIN_20,Coin.COIN_10),  response.getCoins());
-        assertEquals(cola,response.getProduct());
+    public void buyProductSuccessfullyTest() {
+        Coin[] coins = {Coin.COIN_200};
+        DrinkMachineResponse response = drinkMachine.buy(cola, coins);
+        assertEquals("Erfolgreicher Kauf.", response.message());
+        assertEquals(Arrays.asList(Coin.COIN_50, Coin.COIN_20, Coin.COIN_10), response.coins());
+        assertEquals(cola, response.product());
     }
 
     @Test
-    public void notEnoughMoneyTest(){
-        Coin[] coins={Coin.COIN_100};
-        DrinkMachineResponse response =drinkMachine.buy(cola, coins);
-        assertEquals("Not Enough Money", response.getMessage());
-        assertEquals(Arrays.asList(coins),response.getCoins());
-        assertNull(response.getProduct());
+    public void notEnoughMoneyTest() {
+        Coin[] coins = {Coin.COIN_100};
+        DrinkMachineResponse response = drinkMachine.buy(cola, coins);
+        assertEquals("Nicht genug Geld.", response.message());
+        assertEquals(Arrays.asList(coins), response.coins());
+        assertNull(response.product());
     }
 
     @Test
-    public void outOfStockTest(){
-        Coin[] coins={Coin.COIN_100};
-        spezi=new Product("spezi",100);
-        DrinkMachineResponse response =drinkMachine.buy(spezi, coins);
-        assertEquals("Product is out of stock.", response.getMessage());
-        assertEquals(Arrays.asList(coins),response.getCoins());
-        assertNull(response.getProduct());
+    public void outOfStockTest() {
+        Coin[] coins = {Coin.COIN_100};
+        spezi = new Product("spezi", 100);
+        DrinkMachineResponse response = drinkMachine.buy(spezi, coins);
+        assertEquals("Produkt ist nicht auf Lager.", response.message());
+        assertEquals(Arrays.asList(coins), response.coins());
+        assertNull(response.product());
 
     }
 

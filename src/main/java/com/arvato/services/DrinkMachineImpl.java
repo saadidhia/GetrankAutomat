@@ -9,37 +9,38 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class DrinkMachineImpl implements DrinkMachine{
+public class DrinkMachineImpl implements DrinkMachine {
 
-    private final HashMap<Product, Integer> products=new HashMap<>();
+    private final HashMap<Product, Integer> products = new HashMap<>();
 
     @Override
     public DrinkMachineResponse buy(Product product, Coin... coins) {
         if (!products.containsKey(product) || products.get(product) == 0) {
-            return new DrinkMachineResponse(null, Arrays.asList(coins), "Product is out of stock.");
+            return new DrinkMachineResponse(null, Arrays.asList(coins), "Produkt ist nicht auf Lager.");
         }
 
-        int totalInserted=0;
-        for (Coin coin: coins ){
-            totalInserted+=coin.getValue();
+        int totalInserted = 0;
+        for (Coin coin : coins) {
+            totalInserted += coin.getValue();
         }
-        if (totalInserted< product.getPrice()) return new DrinkMachineResponse(null,  Arrays.asList(coins), "Not Enough Money");
-        products.put(product,products.get(product)-1);
-        int difference=totalInserted- product.getPrice();
-        List<Coin> returnCoins= calculateChange(difference);
-        return new DrinkMachineResponse(product, returnCoins, "Successful Purchase");
+        if (totalInserted < product.price())
+            return new DrinkMachineResponse(null, Arrays.asList(coins), "Nicht genug Geld.");
+        products.put(product, products.get(product) - 1);
+        int difference = totalInserted - product.price();
+        List<Coin> returnCoins = calculateChange(difference);
+        return new DrinkMachineResponse(product, returnCoins, "Erfolgreicher Kauf.");
 
     }
 
     private List<Coin> calculateChange(int difference) {
         List<Coin> availableCoins = new ArrayList<>();
 
-        if (difference==0) return List.of();
+        if (difference == 0) return List.of();
 
-        for(Coin coin: Coin.values() ){
-            while(difference>= coin.getValue()){
-               availableCoins.add(coin);
-                difference-= coin.getValue();
+        for (Coin coin : Coin.values()) {
+            while (difference >= coin.getValue()) {
+                availableCoins.add(coin);
+                difference -= coin.getValue();
             }
         }
         return availableCoins;
@@ -47,7 +48,7 @@ public class DrinkMachineImpl implements DrinkMachine{
 
     @Override
     public void fill(Product product, int quantity) {
-        products.put(product, products.getOrDefault(product, 0)+quantity);
+        products.put(product, products.getOrDefault(product, 0) + quantity);
 
     }
 }
