@@ -3,6 +3,7 @@ package com.arvato.services;
 import com.arvato.dtos.DrinkMachineResponse;
 import com.arvato.models.Coin;
 import com.arvato.models.Product;
+import com.arvato.models.Stock;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,7 +12,12 @@ import java.util.List;
 
 public class DrinkMachineImpl implements DrinkMachine {
 
-    private final HashMap<Product, Integer> products = new HashMap<>();
+
+    private final Stock stock;
+
+    public DrinkMachineImpl(Stock stock) {
+        this.stock = stock;
+    }
 
     /**
      * This method allows a user to buy a drink from the drink machine by inserting coins.
@@ -23,11 +29,12 @@ public class DrinkMachineImpl implements DrinkMachine {
      * @return a {@link DrinkMachineResponse} object indicating the result of the transaction.
      *         - If the product is out of stock, it returns a response indicating that the product is unavailable and returns the inserted coins.
      *         - If the inserted coins are not enough, it returns a response indicating insufficient funds and returns the coins.
-     *         - If the purchase is successful, it deducts the product from stock, calculates the change, and returns a response indicating success with the appropriate change.
+     *         - If the purchase is successful, it deducts the product from stock, calculates the change based on the total inserted coins,
+     *           and returns a response indicating success with the appropriate change.
      */
     @Override
     public DrinkMachineResponse buy(Product product, Coin... coins) {
-        if (!products.containsKey(product) || products.get(product) == 0) {
+        if (!stock.checkProductDisponibility(product)) {
             return new DrinkMachineResponse(null, Arrays.asList(coins), "Produkt ist nicht auf Lager.");
         }
 
@@ -37,7 +44,8 @@ public class DrinkMachineImpl implements DrinkMachine {
         }
         if (totalInserted < product.price())
             return new DrinkMachineResponse(null, Arrays.asList(coins), "Nicht genug Geld.");
-        products.put(product, products.get(product) - 1);
+
+        stock.removeProduct(product);
         int difference = totalInserted - product.price();
         List<Coin> returnCoins = calculateChange(difference);
         return new DrinkMachineResponse(product, returnCoins, "Erfolgreicher Kauf.");
@@ -77,7 +85,7 @@ public class DrinkMachineImpl implements DrinkMachine {
      */
     @Override
     public void fill(Product product, int quantity) {
-        products.put(product, products.getOrDefault(product, 0) + quantity);
+        stock.addProduct(product,quantity);
 
     }
 
@@ -86,6 +94,6 @@ public class DrinkMachineImpl implements DrinkMachine {
      */
     @Override
     public void empty() {
-        products.clear();
+        stock.emptyStock();
     }
 }
